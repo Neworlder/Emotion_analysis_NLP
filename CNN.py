@@ -1,5 +1,5 @@
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '4,5'
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 import torch
 use_gpu = torch.cuda.is_available()
 print('GPU: ', use_gpu)
@@ -13,12 +13,12 @@ import torch.nn as nn
 class CNN(torch.nn.Module):
     def __init__(self, input_size):
         super(CNN, self).__init__()
-        self.Conv2d2 = torch.nn.Conv2d(1, 80, (2, input_size), stride=1)
-        self.Conv2d3 = torch.nn.Conv2d(1, 80, (3, input_size), stride=1)
-        self.Conv2d4 = torch.nn.Conv2d(1, 80, (4, input_size), stride=1)
+        self.Conv2d2 = torch.nn.Conv2d(1, 120, (2, input_size), stride=1)
+        self.Conv2d3 = torch.nn.Conv2d(1, 120, (3, input_size), stride=1)
+        self.Conv2d4 = torch.nn.Conv2d(1, 120, (4, input_size), stride=1)
         #self.Conv2d5 = torch.nn.Conv2d(1, 20, (5, input_size))
         #self.Conv2d6 = torch.nn.Conv2d(1, 20, (6, input_size))
-        self.fc1 = torch.nn.Linear(240, 8)
+        self.fc1 = torch.nn.Linear(360, 8)
         for m in self.modules():
             if isinstance(m, nn.Linear):
                 print("Linear init")

@@ -2,13 +2,12 @@ from torch.utils.data import Dataset, DataLoader
 import gensim.models
 import torch
 import numpy as np
-import jieba
 input_shape = 300
 class word2vec_data(Dataset):
     def __init__(self, file):
         super(word2vec_data, self).__init__()
-        #w2v = gensim.models.KeyedVectors.load_word2vec_format('cn2.skip.gb.bin', binary=True, encoding='gb18030', unicode_errors='ignore')
-        w2v = gensim.models.word2vec.Word2Vec.load('Model')
+        w2v = gensim.models.KeyedVectors.load_word2vec_format('cn.cbow.bin', binary=True, unicode_errors='ignore')
+        #w2v = gensim.models.word2vec.Word2Vec.load('Model')
         with open(file, 'r', encoding='utf-8') as f:
             lines = f.readlines()
         self.length = len(lines)
@@ -16,9 +15,6 @@ class word2vec_data(Dataset):
         self.sentence_length = 0
         for i, line in enumerate(lines):
             words = line.split()[10:]
-            sentence = ''.join(words)
-            print(jieba.analyse.extract_tags(sentence, topK=200))
-            #print(sentence)
             # print(words)
             i = 0
             while (i != len(words)):
@@ -27,7 +23,6 @@ class word2vec_data(Dataset):
                     words.pop(i)
                     i -= 1
                 i += 1
-            print(len(words))
             if len(words) > self.sentence_length:
                 self.sentence_length = len(words)
         print('sentence length:', self.sentence_length)
