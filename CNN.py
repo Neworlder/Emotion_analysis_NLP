@@ -85,7 +85,7 @@ if torch.cuda.device_count() > 1:
     net = nn.DataParallel(net)
 if use_gpu:
     net = net.cuda()
-optimizer = Adam(net.parameters(), lr=0.001)
+optimizer = Adam(net.parameters(), lr=0.0001)
 loss_function = torch.nn.CrossEntropyLoss()
 net.train()
 epoch_num = 4000

@@ -2,6 +2,7 @@ from torch.utils.data import Dataset, DataLoader
 import gensim.models
 import torch
 import numpy as np
+import jieba.analyse
 input_shape = 300
 class word2vec_data(Dataset):
     def __init__(self, file):
@@ -11,30 +12,17 @@ class word2vec_data(Dataset):
         with open(file, 'r', encoding='utf-8') as f:
             lines = f.readlines()
         self.length = len(lines)
-
-        self.sentence_length = 0
+        self.dataset = []
+        self.sentence_length = 200
         for i, line in enumerate(lines):
             words = line.split()[10:]
-            # print(words)
+            sentence = ''.join(words)
+            key_words = jieba.analyse.extract_tags(sentence, topK=self.sentence_length)
+            #print(key_words)
             i = 0
             while (i != len(words)):
-                if not words[i] in w2v:
+                if (not words[i] in w2v) or (not words[i] in key_words) :
                     # print(words[i])
-                    words.pop(i)
-                    i -= 1
-                i += 1
-            if len(words) > self.sentence_length:
-                self.sentence_length = len(words)
-        print('sentence length:', self.sentence_length)
-
-        self.dataset = []
-        for line in lines:
-            words = line.split()[10:]
-            #print(words)
-            i = 0
-            while(i != len(words)):
-                if not words[i] in w2v:
-                    #print(words[i])
                     words.pop(i)
                     i -= 1
                 i += 1
