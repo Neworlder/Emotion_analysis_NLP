@@ -26,8 +26,11 @@ class word2vec_data(Dataset):
                     words.pop(i)
                     i -= 1
                 i += 1
-            data = np.zeros((1, self.sentence_length, input_shape), dtype=np.float)
+            #print(len(words))
+            data = np.zeros((1, self.sentence_length + 50, input_shape), dtype=np.float)
             for i, word in enumerate(words):
+                if i == self.sentence_length + 50:
+                    break
                 data[0, i, :] = w2v[word]
             data = torch.tensor(data, dtype=torch.float)
             #print(data.shape)
